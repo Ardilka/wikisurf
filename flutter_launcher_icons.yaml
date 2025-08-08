@@ -1,0 +1,12 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/wikisurf_icon.png"
+  image_path_ios: "assets/wikisurf_icon.png"
+  adaptive_icon_background: "#f1f1f1"
+  adaptive_icon_foreground: "assets/wikisurf_icon.png"
+  remove_alpha_ios: true
+
+
+#dart run flutter_launcher_icons:main -f flutter_launcher_icons.yaml
+# flutter pub run flutter_launcher_icons
