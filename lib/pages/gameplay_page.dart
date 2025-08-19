@@ -101,7 +101,7 @@ class _WikiSurfGamePageState extends State<WikiSurfGamePage> {
       onPopInvoked: (didPop) async {
         if (didPop) return; // already popped somewhere else
         final shouldLeave = await _confirmLeave(context);
-        if (shouldLeave == true) {
+        if (shouldLeave == true && context.mounted) {
           Navigator.of(context).pop();
         }
       },

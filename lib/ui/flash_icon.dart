@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wikisurf/ui/dialogues/flash_count_dialogue.dart';
-import 'package:wikisurf/utils/flash_manager.dart';
 
 class FlashIcon extends StatelessWidget {
   final double percentage; // Value between 0 and 100
 
-  FlashIcon({super.key, required this.percentage});
+  const FlashIcon({super.key, required this.percentage});
 
   @override
   Widget build(BuildContext context) {
