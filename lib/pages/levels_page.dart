@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wikisurf/pages/gameplay_page.dart';
+import 'package:wikisurf/ui/flash_icons_row.dart';
 import 'package:wikisurf/ui/wiki_container.dart';
+import 'package:wikisurf/utils/flash_manager.dart';
 
 class LevelSelectPage extends StatelessWidget {
   const LevelSelectPage({super.key});
@@ -19,6 +21,7 @@ class LevelSelectPage extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.white,
+        actions: [FlashRow()],
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -58,6 +61,7 @@ class LevelSelectPage extends StatelessWidget {
                             ),
                           ),
                         );
+                        flashes.loseFlash();
                       },
                       child: WikiContainer(
                         padding: const EdgeInsets.symmetric(

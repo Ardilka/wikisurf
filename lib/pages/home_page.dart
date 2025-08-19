@@ -101,7 +101,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'Unlimited Hearts ',
+                'Unlimited Energy',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
