@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wikisurf/pages/levels_page.dart';
+import 'package:wikisurf/ui/flash_icons_row.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,6 +10,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [FlashRow()],
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -71,7 +73,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'Start Game',
+                'Single Player',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -101,7 +103,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                'Unlimited Energy',
+                'Multiplayer',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -174,7 +176,7 @@ class HomePage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(bottom: 20),
               child: Text(
-                'Made with 💙 using WikipediA.',
+                'Made with 💙 using WikipediA. ver:0.01',
                 style: TextStyle(fontSize: 12, color: Colors.black87),
               ),
             ),

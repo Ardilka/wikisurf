@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wikisurf/utils/printd.dart';
 
-final flashes = FlashManager(regenMinutes: 20); // dakika cinsinden
+final flashes = FlashManager(regenMinutes: 2); // dakika cinsinden
 
 enum FlashesState { full, regenerating, empty }
 
@@ -13,7 +13,7 @@ class FlashManager {
   SharedPreferences? _prefs;
 
   FlashManager({required int regenMinutes})
-    : regenDuration = Duration(minutes: regenMinutes);
+    : regenDuration = Duration(seconds: 20);
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -265,5 +265,77 @@ class FlashManager {
     }
     printd("→ Regen progress (current): ${getRegenerationProgress()}");
     printd("🧠 [END]");
+  }
+
+  Duration? timeUntilNextFlash() {
+    pruneFullyRegenerated();
+    if (lastLossTime.isEmpty) return null;
+
+    final now = DateTime.now();
+    final chain = _buildChain();
+    DateTime? prevFinish;
+
+    for (final e in chain) {
+      final start = prevFinish == null
+          ? e.value
+          : (prevFinish.isAfter(e.value) ? prevFinish : e.value);
+      final finish = start.add(regenDuration);
+      if (now.isBefore(finish)) {
+        final d = finish.difference(now);
+        return d.isNegative ? Duration.zero : d;
+      }
+      prevFinish = finish;
+    }
+    return Duration.zero; // güvenli taraf
+  }
+
+  /// Tamamen dolmaya ne kadar kaldı?
+  /// Tümü doluysa null döner.
+  Duration? timeUntilFull() {
+    pruneFullyRegenerated();
+    if (lastLossTime.isEmpty) return null;
+
+    final now = DateTime.now();
+    final chain = _buildChain();
+    DateTime? prevFinish;
+    DateTime? lastFinish;
+
+    for (final e in chain) {
+      final start = prevFinish == null
+          ? e.value
+          : (prevFinish.isAfter(e.value) ? prevFinish : e.value);
+      final finish = start.add(regenDuration);
+      lastFinish = finish;
+      prevFinish = finish;
+    }
+
+    if (lastFinish == null) return null;
+    final d = lastFinish.difference(now);
+    return d.isNegative ? Duration.zero : d;
+  }
+
+  /// Sıradaki dolumun anlık ilerleyişi (0..1)
+  double currentCycleProgress() {
+    final p = getRegenerationProgress(); // zaten 0..1 dönüyor
+    if (p.isNaN) return 0.0;
+    if (p < 0) return 0.0;
+    if (p > 1) return 1.0;
+    return p;
+  }
+
+  /// "12 dk 05 sn" gibi kısa format (dk/sn)
+  String formatMinSec(Duration d) {
+    final m = d.inMinutes;
+    final s = d.inSeconds % 60;
+    return "$m min ${s.toString().padLeft(2, '0')} sec";
+  }
+
+  /// "2 sa 13 dk" gibi kısa format (saat/dk)
+  String formatHourMin(Duration d) {
+    final h = d.inHours;
+    final m = d.inMinutes % 60;
+    if (h <= 0 && m <= 0) return "0 min";
+    if (h <= 0) return "$m min";
+    return "$h hr $m min";
   }
 }

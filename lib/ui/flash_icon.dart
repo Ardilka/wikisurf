@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wikisurf/ui/dialogues/flash_count_dialogue.dart';
 
 class FlashIcon extends StatelessWidget {
   final double percentage; // Value between 0 and 100
@@ -9,10 +8,6 @@ class FlashIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showFlashCount(context);
-        // Handle flash tap if needed
-      },
       child: SizedBox(
         width: 20,
         child: Stack(
