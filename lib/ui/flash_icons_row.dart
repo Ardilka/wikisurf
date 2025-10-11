@@ -33,9 +33,10 @@ class _FlashRowState extends State<FlashRow> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.showsDialog)
+        if (widget.showsDialog) {
           // Show the flash info dialog when tapped
           showFlashInfoDialog(context);
+        }
         // Handle flash tap if needed
       },
       child: Padding(
